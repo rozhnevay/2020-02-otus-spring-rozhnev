@@ -2,6 +2,7 @@ package ru.otus.spring.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.otus.spring.model.Exam;
 import ru.otus.spring.model.Question;
 
 import java.util.List;
@@ -13,9 +14,8 @@ public class UtilsTest {
 
     @DisplayName("Utils loadFromCSV method testing")
     @Test
-    void shouldHaveLoading() {
-        Utils utils = new Utils();
-        List<Question> questions = utils.loadQuestionsFromCSV("questions_test.csv");
-        assertEquals(questions.size(), 5);
+    void testLoading() {
+        Exam exam = new Exam("questions_test.csv");
+        assertEquals(exam.getQuestionList().size(), 5);
     }
 }

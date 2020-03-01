@@ -1,14 +1,31 @@
-package ru.otus.spring.service;
+package ru.otus.spring.model;
 
-import lombok.extern.slf4j.Slf4j;
-import ru.otus.spring.model.Question;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Utils {
-    public List<Question> loadQuestionsFromCSV (String csvFile) {
+@Getter
+@Setter
+public class Exam {
+    private List<Question> questionList;
+    private int countAnswered = 0;
+    private int countCorrect = 0;
+    public void incrementCountAnswered() {
+        this.countAnswered++;
+    }
+    public void incrementCountCorrect() {
+        this.countCorrect++;
+    }
+    public Exam(String csvFile) {
+        this.loadQuestionsFromCSV(csvFile);
+    }
+
+    private void loadQuestionsFromCSV (String csvFile) {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         if (csvFile == null || classloader.getResourceAsStream(csvFile) == null) {
             throw new RuntimeException("Cannot open file with questions");
@@ -41,6 +58,6 @@ public class Utils {
         if (questions.size() == 0) {
             throw new RuntimeException("No questions in file!");
         }
-        return questions;
+        this.questionList = questions;
     }
 }

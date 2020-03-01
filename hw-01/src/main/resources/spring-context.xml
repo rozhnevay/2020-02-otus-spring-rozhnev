@@ -4,11 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="student" class="ru.otus.spring.model.Student">
-    </bean>
-    <bean id="test" class="ru.otus.spring.model.Test">
+    <bean id="exam" class="ru.otus.spring.model.Exam">
         <constructor-arg name="csvFile" value="questions.csv"/>
     </bean>
-    <bean id="utils" class="ru.otus.spring.service.Utils">
+    <bean id="utils" class="ru.otus.spring.service.ExamService">
+        <constructor-arg name="exam" ref="exam" />
     </bean>
 </beans>
