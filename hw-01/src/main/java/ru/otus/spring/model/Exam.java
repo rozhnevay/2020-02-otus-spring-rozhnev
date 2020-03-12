@@ -2,7 +2,6 @@ package ru.otus.spring.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -10,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Getter
 @Setter
@@ -26,16 +24,7 @@ public class Exam {
         this.countCorrect++;
     }
 
-    private final Locale locale;
-    private final MessageSource messageSource;
-
-    public Exam(Locale locale, MessageSource messageSource) {
-        this.locale = locale;
-        this.messageSource = messageSource;
-        this.loadQuestionsFromCSV(messageSource.getMessage("file.path", null, locale));
-    }
-
-    private void loadQuestionsFromCSV (String csvFile) {
+    public void loadQuestionsFromCSV(String csvFile) {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         if (csvFile == null || classloader.getResourceAsStream(csvFile) == null) {
             throw new RuntimeException("Cannot open file with questions");
