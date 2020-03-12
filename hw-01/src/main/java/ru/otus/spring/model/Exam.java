@@ -2,15 +2,19 @@ package ru.otus.spring.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Getter
 @Setter
+@Service
 public class Exam {
     private List<Question> questionList;
     private int countAnswered = 0;
@@ -21,8 +25,14 @@ public class Exam {
     public void incrementCountCorrect() {
         this.countCorrect++;
     }
-    public Exam(String csvFile) {
-        this.loadQuestionsFromCSV(csvFile);
+
+    private final Locale locale;
+    private final MessageSource messageSource;
+
+    public Exam(Locale locale, MessageSource messageSource) {
+        this.locale = locale;
+        this.messageSource = messageSource;
+        this.loadQuestionsFromCSV(messageSource.getMessage("file.path", null, locale));
     }
 
     private void loadQuestionsFromCSV (String csvFile) {
