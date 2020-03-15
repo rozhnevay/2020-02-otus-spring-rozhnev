@@ -25,6 +25,7 @@ public class ExamService {
     private final Exam exam;
     private final MessageSource messageSource;
     private final Locale locale;
+    private boolean loadOnly;
 
 
     private int threshold;
@@ -34,8 +35,11 @@ public class ExamService {
         this.threshold = threshold;
         this.messageSource = messageSource;
         this.locale = locale;
+        this.loadOnly = loadOnly;
         this.exam.loadQuestionsFromCSV(messageSource.getMessage("file.path", null, locale));
+    }
 
+    public void run() {
         if (!loadOnly) {
             this.runTest();
         }
