@@ -1,0 +1,7 @@
+locale: en_us
+threshold: 70
+logging:
+  level:
+    root: INFO
+  pattern:
+    console: "%clr(%msg%n){%5p}"
