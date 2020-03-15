@@ -1,6 +1,5 @@
 package ru.otus.spring.service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -14,7 +13,6 @@ import java.util.Locale;
 import java.util.Scanner;
 
 
-@RequiredArgsConstructor
 @Service
 @Slf4j
 public class ExamService {
@@ -38,13 +36,6 @@ public class ExamService {
         this.loadOnly = loadOnly;
         this.exam.loadQuestionsFromCSV(messageSource.getMessage("file.path", null, locale));
     }
-
-    public void run() {
-        if (!loadOnly) {
-            this.runTest();
-        }
-    }
-
 
 
     private void printMessage(String messageCode) {
@@ -71,13 +62,12 @@ public class ExamService {
     }
 
 
-
-    public void runTest() {
+    public void runTest(String name) {
         Student student = new Student();
         /* Welcome message */
-        printMessage("hello");
+//        printMessage("hello");
         Scanner in = new Scanner(System.in);
-        String name = in.nextLine();
+//        String name = q;
         student.setName(name);
 
         /* Test questions loop */
