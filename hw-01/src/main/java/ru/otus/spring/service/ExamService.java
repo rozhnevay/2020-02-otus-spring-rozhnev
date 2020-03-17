@@ -64,10 +64,7 @@ public class ExamService {
 
     public void runTest(String name) {
         Student student = new Student();
-        /* Welcome message */
-//        printMessage("hello");
         Scanner in = new Scanner(System.in);
-//        String name = q;
         student.setName(name);
 
         /* Test questions loop */
