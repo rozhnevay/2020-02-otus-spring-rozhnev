@@ -35,18 +35,18 @@ public class AuthorDaoJdbcImpl implements AuthorDao {
     @Override
     public Author getByName(String name) {
         Map<String, Object> params = Collections.singletonMap("name", name);
-        return namedParameterJdbcOperations.queryForObject("select * from authors where name = :name", params, new AuthorMapper());
+        return namedParameterJdbcOperations.queryForObject("select id, name from authors where name = :name", params, new AuthorMapper());
     }
 
     @Override
     public Author getById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
-        return namedParameterJdbcOperations.queryForObject("select * from authors where id = :id", params, new AuthorMapper());
+        return namedParameterJdbcOperations.queryForObject("select id, name from authors where id = :id", params, new AuthorMapper());
     }
 
     @Override
     public List<Author> getAll() {
-        return jdbc.query("select * from authors", new AuthorMapper());
+        return jdbc.query("select id, name from authors", new AuthorMapper());
     }
 
     @Override

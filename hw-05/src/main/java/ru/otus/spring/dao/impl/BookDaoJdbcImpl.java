@@ -51,7 +51,7 @@ public class BookDaoJdbcImpl implements BookDao {
                 params,
                 new AuthorDaoJdbcImpl.AuthorMapper());
         book.setAuthor(author);
-        List<Genre> genreList = namedParameterJdbcOperations.query("select g.* from genres g " +
+        List<Genre> genreList = namedParameterJdbcOperations.query("select g.id, g.name from genres g " +
                         "join books_genres bg on g.id = bg.genre_id and bg.book_id = :id",
                 params,
                 new GenreDaoJdbcImpl.GenreMapper());
@@ -61,7 +61,7 @@ public class BookDaoJdbcImpl implements BookDao {
 
     @Override
     public List<Book> getAll() {
-        List<Book> bookList = jdbc.query("select * from books", new BookMapper());
+        List<Book> bookList = jdbc.query("select id, name from books", new BookMapper());
         List<Book> result = new ArrayList<>();
         bookList.forEach(item -> result.add(getById(item.getId())));
         return result;
