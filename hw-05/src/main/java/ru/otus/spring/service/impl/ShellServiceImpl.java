@@ -63,10 +63,19 @@ public class ShellServiceImpl implements ShellService {
     @ShellMethod(key = "update_book", value = "Обновить книгу. Параметры: id, название, автор, список жанров через запятую\n" +
             "           Пример:\n" +
             "               update_book 1 Book 'Some Author' 'Some Genre 1,Some Genre 2'")
-    public String insertBook(@ShellOption({"id"}) int id,
+    public String updateBook(@ShellOption({"id"}) int id,
                              @ShellOption({"name"}) String name,
                              @ShellOption({"author"}) String author,
                              @ShellOption({"genres"}) String genres) {
         return libraryService.updateBook(id, name, author, genres);
+    }
+
+    @Override
+    @ShellMethod(key = "insert_book_comment", value = "Добавить комментарий на книгу. Параметры: id книги, комментарий\n" +
+            "           Пример:\n" +
+            "               insert_book_comment 1 'Не интересно'")
+    public String insertBookComment(@ShellOption({"id"}) int id,
+                                    @ShellOption({"comment"}) String comment) {
+        return libraryService.addComment(id, comment);
     }
 }

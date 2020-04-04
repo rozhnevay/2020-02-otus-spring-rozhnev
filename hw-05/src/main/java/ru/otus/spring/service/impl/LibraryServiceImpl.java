@@ -5,9 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.dao.AuthorDao;
 import ru.otus.spring.dao.BookDao;
+import ru.otus.spring.dao.CommentDao;
 import ru.otus.spring.dao.GenreDao;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.service.LibraryService;
 
@@ -23,6 +25,7 @@ public class LibraryServiceImpl implements LibraryService {
     private final BookDao bookDao;
     private final AuthorDao authorDao;
     private final GenreDao genreDao;
+    private final CommentDao commentDao;
 
     @Override
     public String list(String entity) {
@@ -52,13 +55,17 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public String insertAuthor(String name) {
-        Author author = authorDao.insert(new Author(name));
+        Author author = new Author();
+        author.setName(name);
+        author = authorDao.insert(author);
         return author.toString();
     }
 
     @Override
     public String insertGenre(String name) {
-        Genre genre = genreDao.insert(new Genre(name));
+        Genre genre = new Genre();
+        genre.setName(name);
+        genre = genreDao.insert(genre);
         return genre.toString();
     }
 
@@ -79,7 +86,11 @@ public class LibraryServiceImpl implements LibraryService {
                 throw new RuntimeException("Жанр " + genre + " не найден");
             }
         });
-        return new Book(name, author, genreSet);
+        Book book = new Book();
+        book.setName(name);
+        book.setAuthor(author);
+        book.setGenreSet(genreSet);
+        return book;
     }
 
     @Override
@@ -102,5 +113,19 @@ public class LibraryServiceImpl implements LibraryService {
             throw new RuntimeException("Книга с id=" + id + " не найдена");
         }
         return bookDao.update(id, createBookByParams(name, authorStr, genresStr)).toString();
+    }
+
+    @Override
+    public String addComment(int id, String commentStr) {
+        try {
+            Book book = bookDao.getById(id);
+            Comment comment = new Comment();
+            comment.setBook(book);
+            comment.setComment(commentStr);
+            commentDao.insert(comment);
+            return bookDao.getById(id).toString();
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Книга с id=" + id + " не найдена", e);
+        }
     }
 }

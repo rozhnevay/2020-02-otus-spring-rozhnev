@@ -13,4 +13,6 @@ public interface LibraryService {
     String deleteBook(int id);
 
     String updateBook(int id, String name, String authorStr, String genresStr);
+
+    String addComment(int id, String comment);
 }

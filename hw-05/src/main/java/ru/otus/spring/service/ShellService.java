@@ -12,5 +12,7 @@ public interface ShellService {
 
     String deleteBook(int id);
 
-    String insertBook(int id, String name, String author, String genres);
+    String updateBook(int id, String name, String author, String genres);
+
+    String insertBookComment(int id, String name);
 }
