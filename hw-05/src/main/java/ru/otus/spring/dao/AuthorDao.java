@@ -1,17 +1,21 @@
 package ru.otus.spring.dao;
 
 import ru.otus.spring.domain.Author;
+import ru.otus.spring.exceptions.AuthorNotFoundException;
 
 import java.util.List;
 
 public interface AuthorDao {
-    Author insert(Author author);
+    Author save(Author author);
 
-    Author getById(long id);
+    Author getById(long id) throws AuthorNotFoundException;
 
-    Author getByName(String name);
+
+    Author getByName(String name) throws AuthorNotFoundException;
 
     List<Author> getAll();
 
-    void deleteById(long id);
+    void remove(Author author);
+
+    Author getByIdWithBooks(long id) throws AuthorNotFoundException;
 }

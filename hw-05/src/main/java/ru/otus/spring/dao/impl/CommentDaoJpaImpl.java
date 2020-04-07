@@ -8,16 +8,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-@Transactional
 @Repository
 public class CommentDaoJpaImpl implements CommentDao {
     @PersistenceContext
     private EntityManager em;
 
+    @Transactional
     @Override
-    public Comment insert(Comment comment) {
-        em.persist(comment);
-        return comment;
+    public Comment save(Comment comment) {
+        if (comment.getId() <= 0) {
+            em.persist(comment);
+            return comment;
+        } else {
+            return em.merge(comment);
+        }
     }
 
 

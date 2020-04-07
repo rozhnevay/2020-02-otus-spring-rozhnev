@@ -3,24 +3,28 @@ package ru.otus.spring.dao.impl;
 import org.springframework.stereotype.Repository;
 import ru.otus.spring.dao.GenreDao;
 import ru.otus.spring.domain.Genre;
+import ru.otus.spring.exceptions.GenreNotFoundException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
 @Repository
 public class GenreDaoJpaImpl implements GenreDao {
     @PersistenceContext
     private EntityManager em;
 
+    @Transactional
     @Override
-    public Genre insert(Genre genre) {
-        em.persist(genre);
-        return genre;
+    public Genre save(Genre genre) {
+        if (genre.getId() <= 0) {
+            em.persist(genre);
+            return genre;
+        } else {
+            return em.merge(genre);
+        }
     }
 
     @Override
@@ -29,13 +33,17 @@ public class GenreDaoJpaImpl implements GenreDao {
     }
 
     @Override
-    public Genre getByName(String name) {
+    public Genre getByName(String name) throws GenreNotFoundException {
         TypedQuery<Genre> query = em.createQuery("select s " +
                         "from Genre s " +
                         "where s.name = :name",
                 Genre.class);
         query.setParameter("name", name);
-        return query.getResultList().get(0);
+        try {
+            return query.getResultList().get(0);
+        } catch (IndexOutOfBoundsException e) {
+            throw new GenreNotFoundException("Жанр с именем " + name + " не найден");
+        }
     }
 
     @Override
@@ -46,12 +54,10 @@ public class GenreDaoJpaImpl implements GenreDao {
         return query.getResultList();
     }
 
+    @Transactional
     @Override
-    public void deleteById(long id) {
-        Query query = em.createQuery("delete " +
-                "from Genre s " +
-                "where s.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+    public void remove(Genre genre) {
+        genre = em.merge(genre);
+        em.remove(genre);
     }
 }
