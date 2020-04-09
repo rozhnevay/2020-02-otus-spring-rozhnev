@@ -37,6 +37,6 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public List<Book> listAuthorBooks(int authorId) throws AuthorNotFoundException {
-        return authorDao.getByIdWithBooks(authorId).getBooks();
+        return authorDao.getById(authorId).getBooks();
     }
 }

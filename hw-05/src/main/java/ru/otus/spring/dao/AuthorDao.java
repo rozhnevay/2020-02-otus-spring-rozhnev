@@ -16,6 +16,4 @@ public interface AuthorDao {
     List<Author> getAll();
 
     void remove(Author author);
-
-    Author getByIdWithBooks(long id) throws AuthorNotFoundException;
 }

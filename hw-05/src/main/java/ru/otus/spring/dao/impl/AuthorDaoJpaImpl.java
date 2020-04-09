@@ -1,11 +1,11 @@
 package ru.otus.spring.dao.impl;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import ru.otus.spring.dao.AuthorDao;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.exceptions.AuthorNotFoundException;
 
-import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -29,26 +29,25 @@ public class AuthorDaoJpaImpl implements AuthorDao {
         }
     }
 
+    @Transactional
     @Override
     public Author getById(long id) throws AuthorNotFoundException {
-        Author author = em.find(Author.class, id);
+        TypedQuery<Author> query = em.createQuery("select s " +
+                        "from Author s " +
+                        "where s.id = :id",
+                Author.class);
+        query.setParameter("id", id);
+        Author author = query.getSingleResult();
+
         if (author == null) {
             throw new AuthorNotFoundException("Автор с id = " + id + " не найден");
         }
-        return author;
-    }
 
-
-    @Override
-    public Author getByIdWithBooks(long id) throws AuthorNotFoundException {
-        EntityGraph<?> entityGraph = em.getEntityGraph("author-books");
-        TypedQuery<Author> query = em.createQuery("select s from Author s join fetch s.books", Author.class);
-        query.setHint("javax.persistence.fetchgraph", entityGraph);
-        try {
-            return query.getResultList().get(0);
-        } catch (IndexOutOfBoundsException e) {
-            throw new AuthorNotFoundException("Автор с id = " + id + " не найден");
+        if (author.getBooks() != null) {
+            Hibernate.initialize(author.getBooks());
         }
+
+        return author;
     }
 
     @Override
