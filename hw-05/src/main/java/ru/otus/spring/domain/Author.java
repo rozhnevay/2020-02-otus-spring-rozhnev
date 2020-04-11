@@ -14,6 +14,8 @@ import java.util.List;
 @Entity
 @Table(name = "authors")
 @ToString(exclude = {"books"})
+@NamedEntityGraph(name = "authorBooks",
+        attributeNodes = @NamedAttributeNode("books"))
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

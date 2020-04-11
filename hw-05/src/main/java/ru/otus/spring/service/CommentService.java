@@ -4,5 +4,5 @@ import ru.otus.spring.domain.Comment;
 import ru.otus.spring.exceptions.BookNotFoundException;
 
 public interface CommentService {
-    Comment addComment(int bookId, String comment) throws BookNotFoundException;
+    Comment addComment(long bookId, String comment) throws BookNotFoundException;
 }

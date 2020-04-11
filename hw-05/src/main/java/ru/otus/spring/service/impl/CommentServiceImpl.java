@@ -3,10 +3,10 @@ package ru.otus.spring.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.otus.spring.dao.BookDao;
-import ru.otus.spring.dao.CommentDao;
 import ru.otus.spring.domain.Comment;
 import ru.otus.spring.exceptions.BookNotFoundException;
+import ru.otus.spring.repository.BookRepository;
+import ru.otus.spring.repository.CommentRepository;
 import ru.otus.spring.service.CommentService;
 
 @Service
@@ -14,15 +14,17 @@ import ru.otus.spring.service.CommentService;
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
-    private final BookDao bookDao;
-    private final CommentDao commentDao;
+    private final BookRepository bookRepository;
+    private final CommentRepository commentRepository;
 
     @Override
-    public Comment addComment(int bookId, String comment) throws BookNotFoundException {
+    public Comment addComment(long bookId, String comment) throws BookNotFoundException {
         Comment commentObj = new Comment();
-        commentObj.setBook(bookDao.getById(bookId));
+        commentObj.setBook(bookRepository.findById(bookId).orElseThrow(
+                () -> new BookNotFoundException(bookId))
+        );
         commentObj.setComment(comment);
-        commentDao.save(commentObj);
+        commentRepository.save(commentObj);
         return commentObj;
     }
 }
