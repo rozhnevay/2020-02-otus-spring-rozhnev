@@ -6,23 +6,24 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "authors")
-@ToString(exclude = {"books"})
-public class Author {
+@Table(name = "comments")
+@ToString(exclude = {"book"})
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "comment", nullable = false)
+    private String comment;
 
-    @OneToMany(targetEntity = Book.class)
-    @JoinColumn(name = "author_id")
-    private List<Book> books;
+    @ManyToOne(targetEntity = Book.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "book_id")
+    private Book book;
+
 }
+
