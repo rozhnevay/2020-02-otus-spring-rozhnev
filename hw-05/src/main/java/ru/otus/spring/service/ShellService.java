@@ -1,25 +1,19 @@
 package ru.otus.spring.service;
 
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.spring.exceptions.AuthorNotFoundException;
 import ru.otus.spring.exceptions.BookNotFoundException;
-import ru.otus.spring.exceptions.GenreNotFoundException;
 
 public interface ShellService {
 
     String list(String entity);
 
-    String insertAuthor(String name);
+    String insertBook(String name, String author, String genres);
 
-    String insertGenre(String name);
+    String deleteBook(String id) throws BookNotFoundException;
 
-    String insertBook(String name, int authorId, String genres) throws AuthorNotFoundException, GenreNotFoundException;
+    String updateBook(String id, String name, String author, String genres) throws BookNotFoundException;
 
-    String deleteBook(int id) throws BookNotFoundException;
+    String insertBookComment(String id, String name) throws BookNotFoundException;
 
-    String updateBook(int id, String name, int authorId, String genres) throws GenreNotFoundException, BookNotFoundException, AuthorNotFoundException;
-
-    String insertBookComment(int id, String name) throws BookNotFoundException;
-
-    String listAuthorBook(@ShellOption({"id"}) int id) throws AuthorNotFoundException;
+    String listAuthorBook(@ShellOption({"id"}) String author);
 }

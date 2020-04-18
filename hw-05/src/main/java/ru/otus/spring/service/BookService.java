@@ -1,16 +1,16 @@
 package ru.otus.spring.service;
 
 import ru.otus.spring.domain.Book;
-import ru.otus.spring.exceptions.AuthorNotFoundException;
 import ru.otus.spring.exceptions.BookNotFoundException;
-import ru.otus.spring.exceptions.GenreNotFoundException;
 
 public interface BookService {
-    Book saveBook(String name, long authorId, String genresStr) throws GenreNotFoundException, AuthorNotFoundException;
+    Book saveBook(String name, String author, String genresStr);
 
-    Book saveBook(long id, String name, long authorId, String genresStr) throws BookNotFoundException, GenreNotFoundException, AuthorNotFoundException;
+    Book saveBook(String id, String name, String author, String genresStr) throws BookNotFoundException;
 
-    void deleteBook(long id) throws BookNotFoundException;
+    void deleteBook(String id) throws BookNotFoundException;
 
     String list();
+
+    void addComment(String id, String comment) throws BookNotFoundException;
 }

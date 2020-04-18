@@ -2,43 +2,39 @@ package ru.otus.spring.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
-import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
-import ru.otus.spring.exceptions.AuthorNotFoundException;
-import ru.otus.spring.repository.AuthorRepository;
+import ru.otus.spring.repository.BookRepository;
 import ru.otus.spring.service.AuthorService;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.exact;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
-
-    private final AuthorRepository authorRepository;
-
-    @Override
-    public Author insertAuthor(String name) {
-        Author author = new Author();
-        author.setName(name);
-        author = authorRepository.save(author);
-        return author;
-    }
+    private final BookRepository bookRepository;
 
     @Override
     public String list() {
-        StringBuilder result = new StringBuilder();
-        for (Author author : authorRepository.findAll()) {
-            result.append(author.toString()).append("\n");
-        }
-        return result.toString();
+        Set<String> authorSet = new HashSet<>();
+        bookRepository.findAll().forEach(item -> authorSet.add(item.getAuthor()));
+        return authorSet.toString();
     }
 
     @Override
-    public List<Book> listAuthorBooks(long authorId) throws AuthorNotFoundException {
-        return authorRepository.findById(authorId)
-                .orElseThrow(() -> new AuthorNotFoundException(authorId))
-                .getBooks();
+    public List<Book> listAuthorBooks(String author) {
+        Book matcherObject = new Book();
+        matcherObject.setAuthor(author);
+        ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues().
+                withMatcher("author", exact());
+        Example<Book> example = Example.of(matcherObject, matcher);
+        return bookRepository.findAll(example);
     }
 }
