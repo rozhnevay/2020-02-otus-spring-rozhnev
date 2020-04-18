@@ -11,5 +11,5 @@ public interface AuthorService {
 
     String list();
 
-    List<Book> listAuthorBooks(int authorId) throws AuthorNotFoundException;
+    List<Book> listAuthorBooks(long authorId) throws AuthorNotFoundException;
 }

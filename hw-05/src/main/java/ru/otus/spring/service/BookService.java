@@ -6,11 +6,11 @@ import ru.otus.spring.exceptions.BookNotFoundException;
 import ru.otus.spring.exceptions.GenreNotFoundException;
 
 public interface BookService {
-    Book saveBook(String name, int authorId, String genresStr) throws GenreNotFoundException, AuthorNotFoundException;
+    Book saveBook(String name, long authorId, String genresStr) throws GenreNotFoundException, AuthorNotFoundException;
 
-    Book saveBook(int id, String name, int authorId, String genresStr) throws BookNotFoundException, GenreNotFoundException, AuthorNotFoundException;
+    Book saveBook(long id, String name, long authorId, String genresStr) throws BookNotFoundException, GenreNotFoundException, AuthorNotFoundException;
 
-    void deleteBook(int id) throws BookNotFoundException;
+    void deleteBook(long id) throws BookNotFoundException;
 
     String list();
 }
