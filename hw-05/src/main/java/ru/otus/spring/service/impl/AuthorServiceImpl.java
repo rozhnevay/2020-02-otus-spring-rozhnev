@@ -2,39 +2,44 @@ package ru.otus.spring.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
+import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
-import ru.otus.spring.repository.BookRepository;
+import ru.otus.spring.exceptions.AuthorNotFoundException;
+import ru.otus.spring.repository.AuthorRepository;
 import ru.otus.spring.service.AuthorService;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.exact;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
-    private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
     @Override
     public String list() {
-        Set<String> authorSet = new HashSet<>();
-        bookRepository.findAll().forEach(item -> authorSet.add(item.getAuthor()));
-        return authorSet.toString();
+        return authorRepository.findAll().toString();
     }
 
     @Override
-    public List<Book> listAuthorBooks(String author) {
-        Book matcherObject = new Book();
-        matcherObject.setAuthor(author);
-        ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues().
-                withMatcher("author", exact());
-        Example<Book> example = Example.of(matcherObject, matcher);
-        return bookRepository.findAll(example);
+    public String insertAuthor(String author) {
+        Author authorObj = authorRepository.findByName(author).orElse(null);
+        if (authorObj == null) {
+            authorObj = new Author();
+            authorObj.setName(author);
+            return authorRepository.save(authorObj).toString();
+        }
+        return "Автор с именем " + author + " уже существует";
+    }
+
+    @Override
+    public String listAuthorBooks(String author) throws AuthorNotFoundException {
+        List<Book> bookList = authorRepository.findByName(author).orElseThrow(() -> new AuthorNotFoundException(author)).getBookList();
+        if (bookList != null) {
+            return bookList.toString();
+        }
+        return Collections.emptyList().toString();
     }
 }

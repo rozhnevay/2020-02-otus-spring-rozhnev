@@ -3,7 +3,9 @@ package ru.otus.spring.dao;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.repository.AuthorRepository;
 import ru.otus.spring.repository.BookRepository;
 
 import java.util.Collections;
@@ -19,6 +21,9 @@ public class BookDaoTest {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private AuthorRepository authorRepository;
+
 
     @Test
     void shouldInsertBook() {
@@ -26,14 +31,17 @@ public class BookDaoTest {
 
         Book book = new Book();
         book.setName(TEST_BOOK);
-        book.setAuthor(TEST_AUTHOR);
+
+        Author author = new Author();
+        author.setName(TEST_AUTHOR);
+        book.setAuthor(authorRepository.save(author));
         book.setGenreSet(new HashSet<>(Collections.singletonList(TEST_GENRE)));
 
         bookRepository.save(book);
         boolean found = false;
         for (Book bookItem : bookRepository.findAll()) {
             if (bookItem.getName().equals(TEST_BOOK)
-                    && bookItem.getAuthor().equals(TEST_AUTHOR)
+                    && bookItem.getAuthor().getName().equals(TEST_AUTHOR)
                     && bookItem.getGenreSet().size() == 1
             ) {
                 found = true;

@@ -1,11 +1,11 @@
 package ru.otus.spring.service;
 
-import ru.otus.spring.domain.Book;
-
-import java.util.List;
+import ru.otus.spring.exceptions.AuthorNotFoundException;
 
 public interface AuthorService {
     String list();
 
-    List<Book> listAuthorBooks(String author);
+    String insertAuthor(String author);
+
+    String listAuthorBooks(String author) throws AuthorNotFoundException;
 }

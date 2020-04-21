@@ -3,29 +3,24 @@ package ru.otus.spring.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Document
-public class Book {
+@ToString(exclude = "bookList")
+public class Author {
     @Id
     private String id;
 
     private String name;
 
     @DBRef
-    private Author author;
-
-    private List<String> commentList;
-
-    private Set<String> genreSet;
-
+    private List<Book> bookList;
 }
-

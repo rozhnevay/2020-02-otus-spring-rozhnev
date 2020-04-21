@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import ru.otus.spring.exceptions.AuthorNotFoundException;
 import ru.otus.spring.exceptions.BookNotFoundException;
 import ru.otus.spring.service.AuthorService;
 import ru.otus.spring.service.BookService;
@@ -39,8 +40,8 @@ public class ShellServiceImpl implements ShellService {
     @ShellMethod(key = "list_author_book", value = "Список книг автора. \n" +
             "           Пример:\n" +
             "               list_author_book 'Some Author'")
-    public String listAuthorBook(@ShellOption({"name"}) String name) {
-        return authorService.listAuthorBooks(name).toString();
+    public String listAuthorBook(@ShellOption({"name"}) String name) throws AuthorNotFoundException {
+        return authorService.listAuthorBooks(name);
     }
 
     @Override
@@ -49,8 +50,16 @@ public class ShellServiceImpl implements ShellService {
             "               insert_book Book 'Some Author' 'Some Genre 1,Some Genre 2'")
     public String insertBook(@ShellOption({"name"}) String name,
                              @ShellOption({"author"}) String author,
-                             @ShellOption({"genres"}) String genres) {
+                             @ShellOption({"genres"}) String genres) throws AuthorNotFoundException {
         return bookService.saveBook(name, author, genres).toString();
+    }
+
+    @Override
+    @ShellMethod(key = "insert_author", value = "Добавить автора. \n" +
+            "           Пример:\n" +
+            "               insert_author Vasiliy")
+    public String insertAuthor(@ShellOption({"name"}) String name) {
+        return authorService.insertAuthor(name);
     }
 
     @Override
@@ -69,7 +78,7 @@ public class ShellServiceImpl implements ShellService {
     public String updateBook(@ShellOption({"id"}) String id,
                              @ShellOption({"name"}) String name,
                              @ShellOption({"authorId"}) String author,
-                             @ShellOption({"genres"}) String genres) throws BookNotFoundException {
+                             @ShellOption({"genres"}) String genres) throws BookNotFoundException, AuthorNotFoundException {
         return bookService.saveBook(id, name, author, genres).toString();
     }
 
