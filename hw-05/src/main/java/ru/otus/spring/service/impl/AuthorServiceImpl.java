@@ -19,20 +19,13 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
 
     @Override
-    public Author insertAuthor(String name) {
-        Author author = new Author();
-        author.setName(name);
-        author = authorRepository.save(author);
-        return author;
+    public void save(Author author) {
+        authorRepository.save(author);
     }
 
     @Override
-    public String list() {
-        StringBuilder result = new StringBuilder();
-        for (Author author : authorRepository.findAll()) {
-            result.append(author.toString()).append("\n");
-        }
-        return result.toString();
+    public List<Author> list() {
+        return authorRepository.findAll();
     }
 
     @Override

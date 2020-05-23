@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +21,13 @@ public class Comment {
 
     @Column(name = "comment", nullable = false)
     private String comment;
+
+    @Column(name = "author", nullable = false)
+    private String author;
+
+    @Column(name = "created_date", nullable = false)
+    private Instant createdDate;
+
 
     @ManyToOne(targetEntity = Book.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id")

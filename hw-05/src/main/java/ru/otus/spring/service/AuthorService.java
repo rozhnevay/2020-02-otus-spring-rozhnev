@@ -7,9 +7,9 @@ import ru.otus.spring.exceptions.AuthorNotFoundException;
 import java.util.List;
 
 public interface AuthorService {
-    Author insertAuthor(String name);
+    void save(Author author);
 
-    String list();
+    List<Author> list();
 
     List<Book> listAuthorBooks(long authorId) throws AuthorNotFoundException;
 }

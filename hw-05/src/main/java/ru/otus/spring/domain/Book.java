@@ -31,6 +31,7 @@ public class Book {
 
     @Fetch(FetchMode.SUBSELECT)
     @OneToMany(targetEntity = Comment.class, fetch = FetchType.LAZY)
+    @OrderBy("created_date DESC")
     @JoinColumn(name = "book_id")
     private List<Comment> commentList;
 
