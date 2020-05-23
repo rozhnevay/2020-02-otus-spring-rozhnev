@@ -6,6 +6,3 @@ spring:
       port: 27017
       authentication-database: none
 
-logging:
-  level:
-    ROOT: ERROR
