@@ -32,5 +32,7 @@ VALUES ('Это то произведение, о котором можно го
 INSERT INTO COMMENTS(COMMENT, AUTHOR, CREATED_DATE, BOOK_ID)
 VALUES ('"Война и мир" по праву занимает верхушку 100 лучших книг мира. Я бы поставил её самой первой по большинству умозаключения тех людей, которые стремятся познать окружающий мир и в частности русскую душу. Ведь само название книги объявляет нам о содержании её, открывая границы всего мира и его жителей. А также причины войн и их катастрофические последствия для общества.', 'Пётр', now(), 1);
 /* пароль qwe */
-INSERT INTO USER_INFO(LOGIN, PASSWORD)
-VALUES('user', '$2a$10$zNXmBn.oIgWEdAIx9Jy48uR0p.RD833PLWWnY7qLKuKzKrkljfW4q');
+INSERT INTO USER_INFO(LOGIN, PASSWORD, ROLE)
+VALUES('user', '$2a$10$zNXmBn.oIgWEdAIx9Jy48uR0p.RD833PLWWnY7qLKuKzKrkljfW4q', 'ROLE_USER');
+INSERT INTO USER_INFO(LOGIN, PASSWORD, ROLE)
+VALUES('admin', '$2a$10$zNXmBn.oIgWEdAIx9Jy48uR0p.RD833PLWWnY7qLKuKzKrkljfW4q', 'ROLE_ADMIN');
