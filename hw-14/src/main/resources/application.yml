@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    initialization-mode: always
+  data:
+    mongodb:
+      database: migration
+      host: localhost
+      port: 0
+      authentication-database: none
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+    show-sql: true
+
+
+
+#logging:
+#  level:
+#    ROOT: ERROR
