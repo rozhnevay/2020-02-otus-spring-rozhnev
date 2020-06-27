@@ -13,5 +13,7 @@
     <modules>
         <module>hw-01</module>
         <module>hw-05</module>
+        <module>hw-14</module>
+        <module>hw-15</module>
     </modules>
 </project>
