@@ -8,9 +8,19 @@ spring:
       ddl-auto: none
 
     show-sql: true
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
 
 
 #logging:
 #  level:
 #    ROOT: ERROR
+logging:
+  file:
+    name: application.log

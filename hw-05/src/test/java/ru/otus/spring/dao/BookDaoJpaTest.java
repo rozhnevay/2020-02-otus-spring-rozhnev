@@ -1,6 +1,10 @@
 package ru.otus.spring.dao;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Collections;
+import java.util.HashSet;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import ru.otus.spring.domain.Author;
@@ -11,11 +15,6 @@ import ru.otus.spring.exceptions.GenreNotFoundException;
 import ru.otus.spring.repository.AuthorRepository;
 import ru.otus.spring.repository.BookRepository;
 import ru.otus.spring.repository.GenreRepository;
-
-import java.util.Collections;
-import java.util.HashSet;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 public class BookDaoJpaTest {
