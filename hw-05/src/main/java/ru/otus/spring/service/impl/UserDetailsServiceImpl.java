@@ -1,5 +1,6 @@
 package ru.otus.spring.service.impl;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +16,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   private final UserRepository userRepository;
 
   @Override
+  @HystrixCommand(commandKey = "loadUserKey")
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     UserInfo userInfo =
         userRepository

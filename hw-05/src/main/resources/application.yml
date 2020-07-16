@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/db}
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:54321/db}
     username: ${DATASOURCE_USERNAME:postgres}
     password: ${DATASOURCE_PASSWORD:postgres}
     driver-class-name: ${DATASOURCE_DRIVER:org.postgresql.Driver}
@@ -11,7 +11,14 @@ spring:
       ddl-auto: none
 
     show-sql: true
+  application:
+    name: library
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 
 
 #logging:
