@@ -1,6 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/db}
+    username: ${DATASOURCE_USERNAME:postgres}
+    password: ${DATASOURCE_PASSWORD:postgres}
+    driver-class-name: ${DATASOURCE_DRIVER:org.postgresql.Driver}
     initialization-mode: always
   jpa:
     generate-ddl: false
